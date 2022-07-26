@@ -1,12 +1,29 @@
 import UserFinder from './components/UserFinder';
-import Users from './components/Users';
+import UsersContext from './store/users-context';
+
+const DUMMY_USERS = [
+  { id: 'u1', name: 'Max' },
+  { id: 'u2', name: 'Manuel' },
+  { id: 'u3', name: 'Julie' },
+];
 
 function App() {
+
+
+  const usersContext = {
+    users: DUMMY_USERS
+  }
+
+
   return (
-    <div>
+    // value={{users:[{},{},{}]}}
+    <UsersContext.Provider value={usersContext}>
       <UserFinder />
-    </div>
+    </UsersContext.Provider>
   );
 }
 
 export default App;
+
+
+//the context consumer component can be used in both functional and class based component

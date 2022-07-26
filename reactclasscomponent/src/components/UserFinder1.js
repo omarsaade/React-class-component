@@ -1,55 +1,55 @@
+
 import { Fragment, Component } from 'react';
 import classes from './UserFinder.module.css'
 import Users from './Users';
-import UsersContext from '../store/users-context';
+
+//dummay dataa
+const DUMMY_USERS = [
+    { id: 'u1', name: 'Max' },
+    { id: 'u2', name: 'Manuel' },
+    { id: 'u3', name: 'Julie' },
+];
+
 
 class UserFinder extends Component {
-
-    //we can use only one
-    //by writing this With that you're telling React hey this component
-   // should have access to the user's context context,
-   // but you can only set the static context type property
-// once so if there are two contexts which should be
-// connected to one at the same component, this would simply
-// not be an option, you would have to find some other
-// work around like wrapping it in a number component
-// or anything like that.
-
-
-
-
-static contextType = UsersContext;
 
     constructor(props) {
         super(props);
         this.state = {
+        // filteredUsers: DUMMY_USERS,
             filteredUsers: [],
             searchTerm: ''
         }
-        
     }
 
-;
 
 
 
+    // we dont need an if check here cz componentDidMount will only run ounce
+    //when the component initially was rendered for the first time 
+    // If then is updated thereafter, component did mount will not execute,
+    // instead, components did update will execute.
 
     componentDidMount(){
-    this.setState({filteredUsers:this.context.users});
-    // console.log(this.context)
+        //send http request...And Fetch the data here
+        //dummy data par example hen fetched from some server
+        this.setState({filteredUsers:DUMMY_USERS})
     }
 
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.searchTerm !== this.state.searchTerm) {      
+        //if condition to avoid an infinte loop
+        if (prevState.searchTerm !== this.state.searchTerm) {
+            // console.log(prevState.searchTerm); // ''
+            // console.log(this.state.searchTerm); //M
             this.setState({
-                filteredUsers: this.context.users.filter((user) =>
+                filteredUsers: DUMMY_USERS.filter((user) =>
                     user.name.includes(this.state.searchTerm)
                 ),
             });
         }
-}
+ }
 
 
 
