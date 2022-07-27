@@ -2,23 +2,24 @@ import { Fragment, Component } from 'react';
 import classes from './UserFinder.module.css'
 import Users from './Users';
 import UsersContext from '../store/users-context';
+import ErrorBoundary from './ErrorBoundary';
 
 class UserFinder extends Component {
 
     //we can use only one
     //by writing this With that you're telling React hey this component
-   // should have access to the user's context context,
-   // but you can only set the static context type property
-// once so if there are two contexts which should be
-// connected to one at the same component, this would simply
-// not be an option, you would have to find some other
-// work around like wrapping it in a number component
-// or anything like that.
+    // should have access to the user's context context,
+    // but you can only set the static context type property
+    // once so if there are two contexts which should be
+    // connected to one at the same component, this would simply
+    // not be an option, you would have to find some other
+    // work around like wrapping it in a number component
+    // or anything like that.
 
 
 
 
-static contextType = UsersContext;
+    static contextType = UsersContext;
 
     constructor(props) {
         super(props);
@@ -26,30 +27,30 @@ static contextType = UsersContext;
             filteredUsers: [],
             searchTerm: ''
         }
-        
+
     }
 
-;
+    ;
 
 
 
 
-    componentDidMount(){
-    this.setState({filteredUsers:this.context.users});
-    // console.log(this.context)
+    componentDidMount() {
+        this.setState({ filteredUsers: this.context.users });
+        // console.log(this.context)
     }
 
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.searchTerm !== this.state.searchTerm) {      
+        if (prevState.searchTerm !== this.state.searchTerm) {
             this.setState({
                 filteredUsers: this.context.users.filter((user) =>
                     user.name.includes(this.state.searchTerm)
                 ),
             });
         }
-}
+    }
 
 
 
@@ -67,7 +68,9 @@ static contextType = UsersContext;
                 <div className={classes.finder}>
                     <input type='search' onChange={this.searchChangeHandler.bind(this)} />
                 </div>
-                <Users users={this.state.filteredUsers} />
+                <ErrorBoundary>
+                    <Users users={this.state.filteredUsers} />
+                </ErrorBoundary>
             </Fragment>
         );
     }
